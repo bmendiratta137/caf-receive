@@ -10,15 +10,26 @@
 </head>
 <body>
     <cast-media-player></cast-media-player>
-    <!-- ? -->
     <script>
-
         // Capture JS errors
-        window.onerror = function (msg, url, line) {
+        window.onerror = function (msg, url, line, col, error) {
             console.log("Message : " + msg );
-            console.log("url : " + url );
+            console.log("URL : " + url );
             console.log("Line number : " + line );
-            newrelic.addPageAction("JSError", {"errMessage": msg, "errUrl": url, "errLine": line})
+            console.log("Column number : " + col );
+            console.log("Error object : " + JSON.stringify(error));
+            if (window.newrelic) {
+                newrelic.addPageAction("JSError", {"errMessage": msg, "errUrl": url, "errLine": line, "errCol": col, "error": JSON.stringify(error)});
+            } else {
+                console.warn("New Relic is not initialized");
+            }
+        };
+
+        // Ensure New Relic is initialized
+        if (window.newrelic) {
+            console.log("New Relic initialized");
+        } else {
+            console.warn("New Relic is not initialized");
         }
 
         cast.framework.CastReceiverContext.getInstance().start();
@@ -45,7 +56,6 @@
 
             return request;
         });
-
     </script>
 </body>
 </html>

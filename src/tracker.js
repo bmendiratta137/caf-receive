@@ -11,6 +11,7 @@ export default class CAFTracker extends nrvideo.VideoTracker {
     super()
     this.reset()
     this.registerListeners()
+    console.log("CAF tracker initialized")
   }
 
   registerListeners() {
@@ -243,6 +244,7 @@ export default class CAFTracker extends nrvideo.VideoTracker {
     nrvideo.Log.debug("onPause  = ", ev)
     if (!ev.ended) {
       this.sendPause()
+      console.log("Pause event sent")
     }
   }
 
